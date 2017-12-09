@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import copy
-from lj_project.items import ResidenceInfoItem,ResidencePriceItem
+from lj_project.items import ResidenceInfoItem,ResidencePriceItem,DealItem
 import MySQLdb
 import MySQLdb.cursors
 # Define your item pipelines here
@@ -27,31 +27,58 @@ class LjProjectPipeline(object):
             self._insert_residence_info(self.cursor, asynitem, spider)
         if isinstance(item, ResidencePriceItem):
             self._insert_residence_price(self.cursor, asynitem, spider)
+        if isinstance(item, DealItem):
+            self._insert_deal_item(self.cursor, asynitem, spider)
 
         return item
 
     def _insert_residence_info(self, cursor, item, spider):
         try:
+            for k,v in item.items():
+                print k,v
             # print cursor
             cursor.execute("insert into t_web_lj_xiaoqu (city,district,community,residence_name,address,\
-                           coordinate, build_time,property_price,property_company,developer,total_buildings,total_houses,\
-                           bsn_dt,tms,url,webst_nm,crawl_time) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                          coordinate,build_time,property_price,property_company,developer,total_buildings,\
+                          total_houses,bsn_dt,tms,url,webst_nm,crawl_time) values\
+                            (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                            (item['city'],item['district'],item['community'],item['residence_name'],item['address'],
                             item['coordinate'],item['build_time'],item['property_price'],item['property_company'],
                             item['developer'],item['total_buildings'],item['total_houses'],item['bsn_dt'],
                             item['tms'],item['url'],item['webst_nm'],item['crawl_time']))
             self.conn.commit()
-            spider.logger.info("================= data insert successfult !!! =======================")
+            spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
             print e
 
     def _insert_residence_price(self, cursor, item, spider):
         try:
+
             cursor.execute("insert into t_web_lj_xiaoqu_price (city,district, community, name, url, avg_time,\
-             avg_price, crawl_time) values(%s,%s,%s,%s,%s,%s,%s,%s)",(item['city'], item['district'], item['community'],\
+             avg_price, crawl_time,residence_id) values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(item['city'], item['district'], item['community'],\
                                                                       item['name'],item['url'],item['avg_time'],
-                                                                      item['avg_price'],item['crawl_time']))
-            spider.logger.info("======data insert successfult !!!======")
+                                                                      item['avg_price'],item['crawl_time'],int(item['residence_id'])))
+            spider.logger.info("======data insert successful !!!======")
             self.conn.commit()
+        except Exception, e:
+            print e
+
+    def _insert_deal_item(self, cursor, item, spider):
+        try:
+            cursor.execute("insert into t_web_lj_deal_copy (structure,orientation,area,inner_area,heating_style,\
+                                       decoration, floor,total_floor,house_type_struct,build_type,build_struct,household,\
+                                       elevator,house_age,property_type,house_type,house_owner,listing_price,listing_date,\
+                                       total_price,transaction_date,last_deal,deal_cycle,look_times,bsn_dt,tms,url,webst_nm,\
+                                       crawl_time,residence_url,residence_id,unit_price,city,district,community,residence_name\
+                                       ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                           (item['structure'], item['orientation'], item['area'], item['inner_area'], item['heating_style'],
+                            item['decoration'], item['floor'], item['total_floor'], item['house_type_struct'],
+                            item['build_type'], item['build_struct'], item['household'], item['elevator'],
+                            item['house_age'], item['property_type'], item['house_type'], item['house_owner'],
+                            item['listing_price'],item['listing_date'],item['total_price'],item['transaction_date'],
+                            item['last_deal'],item['deal_cycle'],item['look_times'],item['bsn_dt'],item['tms'],
+                            item['url'],item['webst_nm'],item['crawl_time'],item['residence_url'],item['residence_id'],
+                            item['unit_price'],item['city'],item['district'],item['community'],item['residence_name']))
+            self.conn.commit()
+            spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
             print e

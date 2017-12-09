@@ -9,7 +9,6 @@ import scrapy
 
 
 class ResidencePriceItem(scrapy.Item):
-    id = scrapy.Field()
     city = scrapy.Field()
     district = scrapy.Field()
     community = scrapy.Field()
@@ -42,3 +41,44 @@ class ResidenceInfoItem(scrapy.Item):
     url = scrapy.Field()
     webst_nm = scrapy.Field()
     crawl_time = scrapy.Field()
+
+class DealItem(scrapy.Item):
+    structure = scrapy.Field()
+    orientation = scrapy.Field()
+    area = scrapy.Field()
+    inner_area = scrapy.Field()
+    heating_style = scrapy.Field()
+    decoration = scrapy.Field()
+    floor = scrapy.Field()
+    total_floor = scrapy.Field()
+    house_type_struct = scrapy.Field()
+    build_type = scrapy.Field()
+    build_struct = scrapy.Field()
+    household = scrapy.Field()
+    elevator = scrapy.Field()
+
+    house_age = scrapy.Field()
+    property_type = scrapy.Field()
+    house_type = scrapy.Field()
+    house_owner = scrapy.Field()
+    listing_date = scrapy.Field()
+    listing_price = scrapy.Field()
+    total_price = scrapy.Field()
+    transaction_date = scrapy.Field()
+    last_deal = scrapy.Field()
+    deal_cycle = scrapy.Field()
+    look_times = scrapy.Field()
+
+    bsn_dt = scrapy.Field()
+    tms = scrapy.Field()
+    url = scrapy.Field()
+    webst_nm = scrapy.Field()
+    crawl_time = scrapy.Field()
+    residence_url = scrapy.Field()
+
+    residence_id = scrapy.Field()
+    unit_price = scrapy.Field()
+    city = scrapy.Field()
+    district = scrapy.Field()
+    community = scrapy.Field()
+    residence_name = scrapy.Field()

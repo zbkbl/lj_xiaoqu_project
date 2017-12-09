@@ -1,10 +1,11 @@
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 import scrapy
 from lj_project.items import ResidenceInfoItem
 import time
 import re
 from scrapy.spiders import CrawlSpider
+import datetime
 URL = "http://sh.lianjia.com"
 
 
@@ -72,8 +73,8 @@ class ShXiaoquSpider(CrawlSpider):
         next = select.xpath('//div[@class="page-box house-lst-page-box"]/a[@gahref="results_next_page"]/@href').extract_first()
         if next:
             new_url = URL + next
-            print next
-            print new_url
+            # print next
+            # print new_url
             yield scrapy.Request(url=new_url, callback=self.parse_residence)
 
     def parse_Info(self, response):
@@ -84,11 +85,11 @@ class ShXiaoquSpider(CrawlSpider):
         # 经纬度
         coordinate = select.xpath('//*[@id="actshowMap_xiaoqu"]/@xiaoqu').extract_first()
         if coordinate:
-            coor = re.findall(u"\[(.*?),\s'", coordinate)
-            item['coordinate'] = coor
+            coor = coordinate.split(',')
+            item['coordinate'] = coor[0] + ','+ coor[1].strip() + ']'
 
         bd_time = select.xpath('//*[@id="zoneView"]/div[2]/div[3]/ol/li[2]/span/span/text()').extract_first()
-        build_time = bd_time.strip()
+        build_time = bd_time.strip().replace("~","-")
 
         property_price = select.xpath('//*[@id="zoneView"]/div[2]/div[3]/ol/li[3]/span/text()').extract_first().strip()
 
@@ -100,7 +101,7 @@ class ShXiaoquSpider(CrawlSpider):
 
         house_sum = None
 
-        item['crawl_time'] = time.strftime("%Y-%m-%d %X",time.localtime())
+        item['crawl_time'] = datetime.datetime.now().strftime('%Y-%m-%d %X')
         item['city'] = u"上海"
         item['residence_name'] = residence_name
         item['address'] = address
@@ -110,7 +111,7 @@ class ShXiaoquSpider(CrawlSpider):
         item['developer'] = developer
         item['total_houses'] = floor_sum
         item['total_buildings'] = house_sum
-        item['bsn_dt'] = u'2017/11/20'
+        item['bsn_dt'] = str(datetime.date.today())
         item['webst_nm'] = u'链家'
         item['tms'] = time.strftime("%Y-%m-%d %X", time.localtime())
         yield item

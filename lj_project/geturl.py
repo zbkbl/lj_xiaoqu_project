@@ -2,6 +2,7 @@
 import MySQLdb
 import MySQLdb.cursors
 from lj_project.items import ResidencePriceItem
+from lj_project.items import DealItem
 
 
 class GetMissionUrl(object):
@@ -22,7 +23,7 @@ class GetMissionUrl(object):
             for line in rs:
                 # print line
                 item = ResidencePriceItem()
-                item['id'] = line[0]
+                item['residence_id'] = line[0]
                 item['city'] = line[1]
                 item['district'] = line[2]
                 item['community'] = line[3]
@@ -36,11 +37,29 @@ class GetMissionUrl(object):
                 self.cursor.close()
             if self.conn:
                 self.conn.close()
+        return self.url_list
 
-
-        # for i in self.url_list:
-        #     print i
-        # print len(self.url_list)
+    def get_chengjiao_urls(self):
+        try:
+            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu")
+            rs = self.cursor.fetchall()
+            for line in rs:
+                # print line
+                item = DealItem()
+                item['residence_id'] = line[0]
+                item['city'] = line[1]
+                item['district'] = line[2]
+                item['community'] = line[3]
+                item['residence_name'] = line[4]
+                item['url'] = line[5]
+                self.url_list.append(item)
+        except Exception, e:
+            print e
+        finally:
+            if self.cursor:
+                self.cursor.close()
+            if self.conn:
+                self.conn.close()
         return self.url_list
 
     def get_lj_deal_urls(self):
@@ -52,13 +71,20 @@ class GetMissionUrl(object):
         except Exception, e:
             print e
         return self.url_list
-        # for i in self.url_list:
-        #     print i
-        # print len(self.url_list)
+
+    def get_crawled_deal_urls(self):
+        try:
+            self.cursor.execute("select url from t_web_lj_deal_copy")
+            rs = self.cursor.fetchall()
+            for line in rs:
+                self.url_list.append(line[0])
+        except Exception, e:
+            print e
+        return self.url_list
 
     def get_crawled_urls(self):
         try:
-            self.cursor.execute("select url from t_web_lj_xiaoqu where city='西安'")
+            self.cursor.execute("select url from t_web_lj_xiaoqu")
             rs = self.cursor.fetchall()
             for line in rs:
                 self.url_list.append(line[0])
@@ -68,5 +94,5 @@ class GetMissionUrl(object):
 
 if __name__ == '__main__':
     test = GetMissionUrl()
-    test.get_crawled_urls()
+    test.get_crawled_deal_urls()
     print len(test.url_list)
