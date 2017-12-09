@@ -6,8 +6,8 @@ import datetime
 import re
 
 city_dict = {
-    'bj': u'北京', 'sh': u'上海', 'xm':u'厦门', 'nj':u'南京', 'cd':u'成都', 'qd':u'青岛',
-    'wh': u'武汉', 'jn': u'济南', 'hf': u'合肥','xa': u'西安','gz':u'广州', 'su':u'苏州'
+    'bj.lianjia': u'北京', 'sh.lianjia': u'上海', 'xm.lianjia':u'厦门', 'nj.lianjia':u'南京', 'cd.lianjia':u'成都', 'qd.lianjia':u'青岛',
+    'wh.lianjia': u'武汉', 'jn.lianjia': u'济南', 'hf.lianjia': u'合肥','xa.lianjia': u'西安','gz.lianjia':u'广州', 'su.lianjia':u'苏州'
 }
 
 
@@ -40,7 +40,9 @@ class LjXiaoquSpider(scrapy.Spider):
         'https://sjz.lianjia.com/xiaoqu',
         'https://wh.lianjia.com/xiaoqu',
         'https://xm.lianjia.com/xiaoqu',
-        'https://xa.lianjia.com/xiaoqu'
+        'https://xa.lianjia.com/xiaoqu',
+        'https://gz.lianjia.com',
+        'http://su.lianjia.com'
     }
 
     # 获取区域链接
@@ -60,7 +62,7 @@ class LjXiaoquSpider(scrapy.Spider):
         li = select.xpath("/html/body/div[4]/div[1]/ul//li")
         for l in li:
             url = l.xpath("a/@href").extract_first()
-            item['residence_name'] = l.xpath("div[@class='info']/div/a/text()").extract_first()
+            # item['residence_name'] = l.xpath("div[@class='info']/div/a/text()").extract_first()
             item['district'] = l.xpath("div/div/a[@class='district']/text()").extract_first()
             item['community'] = l.xpath("div/div/a[@class='bizcircle']/text()").extract_first()
 
@@ -104,7 +106,8 @@ class LjXiaoquSpider(scrapy.Spider):
         item['total_buildings'] = select.xpath('//*[@class="xiaoquInfo"]/div[6]/span[2]/text()').extract_first()
         # 总户数
         item['total_houses'] = select.xpath('//*[@class="xiaoquInfo"]/div[7]/span[2]/text()').extract_first()
-
+        # 小区名字
+        item['residence_name'] = select.xpath('//*[@class="detailTitle"]/text()').extract_first()
         # 业务时间
         item['bsn_dt'] = str(datetime.date.today())
         # 抓取时间
