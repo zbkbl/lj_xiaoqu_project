@@ -28,6 +28,8 @@ class GetResidencePrice(CrawlSpider):
         select = scrapy.Selector(response)
         item = response.meta['key']
         item['avg_price'] = select.xpath('//*[@class="xiaoquUnitPrice"]/text()').extract_first()
+        if item['avg_price'] is None:
+            item['avg_price'] = select.xpath('//*[@id="zoneView"]/div[2]/div[2]/div/p[2]/span[1]/text()').extract_first()
         item['avg_time'] = u'2017/11'
         item['crawl_time'] = datetime.datetime.now().strftime('%Y-%m-%d %X')
 

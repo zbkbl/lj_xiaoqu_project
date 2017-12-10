@@ -19,14 +19,14 @@ class GetResidencePrice(CrawlSpider):
         'https://jn.lianjia.com',
         'https://nj.lianjia.com',
         'https://qd.lianjia.com',
-        'https://sh.lianjia.com',
+        # 'https://sh.lianjia.com',
         # # 'http://sh.lianjia.com',
         'https://hf.lianjia.com',
         'https://wh.lianjia.com',
         'https://xm.lianjia.com',
         'https://xa.lianjia.com',
         'https://gz.lianjia.com',
-        'http://su.lianjia.com'
+        # 'http://su.lianjia.com'
     ]
     custom_settings = {
             'ITEM_PIPELINES': {

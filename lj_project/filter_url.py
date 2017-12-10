@@ -29,3 +29,16 @@ class LjprojectDealMiddleware(object):
             raise IgnoreRequest
         else:
             return None
+
+class LjprojectListingMiddleware(object):
+    def __init__(self):
+        test = GetMissionUrl()
+        self.urlList = test.get_crawled_listing_urls()
+
+    def process_request(self, request, spider):
+        if request.url in self.urlList:
+            spider.logger.info(request.url + "has been crawled !!")
+            raise IgnoreRequest
+        else:
+            return None
+

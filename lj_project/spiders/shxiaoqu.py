@@ -6,14 +6,23 @@ import time
 import re
 from scrapy.spiders import CrawlSpider
 import datetime
-URL = "http://sh.lianjia.com"
+city_dict = {
+    'sh.lianjia': u'上海', 'su.lianjia':u'苏州'
+}
+url_dict = {
+    'sh.lianjia': "http://sh.lianjia.com", 'su.lianjia':"http://su.lianjia.com"
+}
 
 
 class ShXiaoquSpider(CrawlSpider):
     name = "sh_xiaoqu_spider"
-    allowed_domain = "http://sh.lianjia.com"
+    allowed_domain = ["http://sh.lianjia.com",
+                      'http://su.lianjia.com'
+                      ]
 
-    start_urls = []
+    start_urls = ["http://sh.lianjia.com/xiaoqu",
+                  "http://su.lianjia.com/xiaoqu"]
+
     custom_settings = {
         'DOWNLOADER_MIDDLEWARES_BASE': {
             'scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware': 100,
@@ -40,11 +49,13 @@ class ShXiaoquSpider(CrawlSpider):
     }
 
     def start_requests(self):
-        yield scrapy.Request(url="http://sh.lianjia.com/xiaoqu",
+        for url in self.start_urls:
+            yield scrapy.Request(url=url,
                                  callback=self.parse, dont_filter=True)
 
     # 获取区域
     def parse(self, response):
+        URL = self.get_domain(response.url)
         select = scrapy.Selector(response)
         urls = select.xpath('//*[@id="filter-options"]/dl[1]/dd/div/a/@href').extract()
         for url in urls[1:]:
@@ -53,6 +64,7 @@ class ShXiaoquSpider(CrawlSpider):
 
     def parse_community(self, response):
         select = scrapy.Selector(response)
+        URL = self.get_domain(response.url)
         urls = select.xpath('//*[@id="filter-options"]/dl[1]/dd/div[2]/a/@href').extract()
         for url in urls[1:]:
             new_url = URL + url
@@ -60,6 +72,7 @@ class ShXiaoquSpider(CrawlSpider):
 
     def parse_residence(self, response):
         select = scrapy.Selector(response)
+        URL = self.get_domain(response.url)
         res = select.xpath('//*[@id="house-lst"]/li')
         for li in res:
             url = li.xpath('div[2]/h2/a/@href').extract_first()
@@ -73,8 +86,6 @@ class ShXiaoquSpider(CrawlSpider):
         next = select.xpath('//div[@class="page-box house-lst-page-box"]/a[@gahref="results_next_page"]/@href').extract_first()
         if next:
             new_url = URL + next
-            # print next
-            # print new_url
             yield scrapy.Request(url=new_url, callback=self.parse_residence)
 
     def parse_Info(self, response):
@@ -102,7 +113,9 @@ class ShXiaoquSpider(CrawlSpider):
         house_sum = None
 
         item['crawl_time'] = datetime.datetime.now().strftime('%Y-%m-%d %X')
-        item['city'] = u"上海"
+        for key in city_dict.keys():
+            if key in response.url:
+                item['city'] = city_dict[key]
         item['residence_name'] = residence_name
         item['address'] = address
         item['build_time'] = build_time
@@ -115,3 +128,8 @@ class ShXiaoquSpider(CrawlSpider):
         item['webst_nm'] = u'链家'
         item['tms'] = time.strftime("%Y-%m-%d %X", time.localtime())
         yield item
+
+    def get_domain(self,url):
+        for k,v in url_dict.items():
+            if k in url:
+                return v

@@ -74,9 +74,9 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   # 'lj_project.filter_url.LjprojectSpiderMiddleware': 310,
+   'lj_project.filter_url.LjprojectSpiderMiddleware': 310,
 }
-
+FEED_EXPORT_ENCODING = 'utf-8'
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
