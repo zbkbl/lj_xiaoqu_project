@@ -8,7 +8,6 @@ from scrapy import Request
 from lj_project.Exception import tryex
 import re
 import time
-import chardet
 
 url_dict = {
     'sh.lianjia': "http://sh.lianjia.com", 'su.lianjia':"http://su.lianjia.com"
@@ -131,7 +130,7 @@ class ShChengjiao(CrawlSpider):
         item['household']         = None
         item['elevator']          = None
 
-        item['house_age']         = sr.xpath("/html/body/div[4]/div/div[1]/div[1]/div[2]/span[4]/span/text()").extract_first()
+        item['house_age']         = sr.xpath('//span[@class="taxfree-ex"]/span/text()').extract_first()
         item['property_type']     = None
         item['house_type']        = None
         item['house_owner']       = None
