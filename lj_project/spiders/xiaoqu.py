@@ -14,34 +14,34 @@ city_dict = {
 class LjXiaoquSpider(scrapy.Spider):
     name = "lj_xiaoqu"
     allowed_domain = [
-                      # 'https://bj.lianjia.com',
-                      # 'https://cd.lianjia.com',
+                      'https://bj.lianjia.com',
+                      'https://cd.lianjia.com',
                       # 'https://jn.lianjia.com',
-                      # 'https://nj.lianjia.com',
-                      # 'https://qd.lianjia.com',
+                      'https://nj.lianjia.com',
+                      'https://qd.lianjia.com',
                       # 'https://sh.lianjia.com',
-                      # # # 'http://sh.lianjia.com',
+                      # # 'http://sh.lianjia.com',
                       # 'https://hf.lianjia.com',
-                      # 'https://wh.lianjia.com',
+                      'https://wh.lianjia.com',
                       # 'https://xm.lianjia.com',
                       # 'https://xa.lianjia.com',
-                      'https://gz.lianjia.com',
+                      # 'https://gz.lianjia.com',
                       # 'http://su.lianjia.com'
                       ]
 
     start_urls = {
-        # 'https://bj.lianjia.com/xiaoqu',
-        # 'https://cd.lianjia.com/xiaoqu',
+        'https://bj.lianjia.com/xiaoqu',
+        'https://cd.lianjia.com/xiaoqu',
         # 'https://jn.lianjia.com/xiaoqu',
-        # 'https://nj.lianjia.com/xiaoqu',
-        # 'https://qd.lianjia.com/xiaoqu',
+        'https://nj.lianjia.com/xiaoqu',
+        'https://qd.lianjia.com/xiaoqu',
         # 'https://hf.lianjia.com/xiaoqu'
         # # 'http://sh.lianjia.com/xiaoqu',
         # 'https://sjz.lianjia.com/xiaoqu',
-        # 'https://wh.lianjia.com/xiaoqu',
+        'https://wh.lianjia.com/xiaoqu',
         # 'https://xm.lianjia.com/xiaoqu',
         # 'https://xa.lianjia.com/xiaoqu',
-        'https://gz.lianjia.com/xiaoqu',
+        # 'https://gz.lianjia.com/xiaoqu',
         # 'http://su.lianjia.com/xiaoqu'
     }
 

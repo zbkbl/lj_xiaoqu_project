@@ -12,6 +12,9 @@ class GetResidencePrice(CrawlSpider):
             'ITEM_PIPELINES': {
                 'lj_project.pipelines.LjProjectPipeline': 300,
             },
+            'DOWNLOADER_MIDDLEWARES': {
+                # 'lj_project.filter_url.LjprojectListingMiddleware': 310,
+            },
             'DOWNLOAD_DELAY':0.2
     }
 
@@ -27,9 +30,9 @@ class GetResidencePrice(CrawlSpider):
     def get_residence_price(self, response):
         select = scrapy.Selector(response)
         item = response.meta['key']
-        item['avg_price'] = select.xpath('//*[@class="xiaoquUnitPrice"]/text()').extract_first()
+        item['avg_price'] = select.xpath('//*[@class="xiaoquUnitPrice"]/text()').extract_first().strip()
         if item['avg_price'] is None:
-            item['avg_price'] = select.xpath('//*[@id="zoneView"]/div[2]/div[2]/div/p[2]/span[1]/text()').extract_first()
+            item['avg_price'] = select.xpath('//*[@id="zoneView"]/div[2]/div[2]/div/p[2]/span[1]/text()').extract_first().strip()
         item['avg_time'] = u'2017/11'
         item['crawl_time'] = datetime.datetime.now().strftime('%Y-%m-%d %X')
 

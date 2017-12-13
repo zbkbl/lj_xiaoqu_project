@@ -12,7 +12,7 @@ import MySQLdb.cursors
 class LjProjectPipeline(object):
 
     def __init__(self):
-        self.conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='3385458', db='test', charset="utf8")
+        self.conn = MySQLdb.connect(host='10.0.8.198', user='dashuju', passwd='8FTeR5dA!', db='crawler', charset="utf8")
         self.cursor = self.conn.cursor()
 
     def close_spider(self, spider):

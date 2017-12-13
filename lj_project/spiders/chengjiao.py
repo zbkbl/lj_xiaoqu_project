@@ -124,7 +124,9 @@ class GetResidencePrice(CrawlSpider):
         item['last_deal']         = tryex.strip(sr.xpath('//*[@id="chengjiao_record"]/ul/li[2]/p/text()').extract_first())
         item['deal_cycle']        = tryex.strip(sr.xpath('//*[@class="msg"]/span[2]/label/text()').extract_first())
         item['look_times']        = tryex.strip(sr.xpath('//*[@class="msg"]/span[4]/label/text()').extract_first())
-        item['unit_price']        = tryex.strip(sr.xpath('/html/body/section[1]/div[2]/div[2]/div[1]/b/text()').extract_first())
+        item['unit_price'] = sr.xpath('//div[@class="price"]/b/text()').extract_first()
+        if item['unit_price'] is None:
+            item['unit_price'] = sr.xpath('//div[@class="unitPrice"]/span/text()').extract_first()
         item['crawl_time']        = time.strftime("%Y-%m-%d %X",time.localtime())
         item['residence_url']     = item['url']
         item['url']               = response.url
