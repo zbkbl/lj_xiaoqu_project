@@ -2,7 +2,7 @@
 import MySQLdb
 import MySQLdb.cursors
 from lj_project.items import ResidencePriceItem
-from lj_project.items import DealItem,EsfItem
+from lj_project.items import DealItem, EsfItem
 
 
 class GetMissionUrl(object):
@@ -49,7 +49,7 @@ class GetMissionUrl(object):
         :return:
         """
         try:
-            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu")
+            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu where id>67439")
             rs = self.cursor.fetchall()
             for line in rs:
                 # print line
@@ -96,7 +96,6 @@ class GetMissionUrl(object):
             if self.conn:
                 self.conn.close()
         return self.url_list
-
 
     def get_listing_sh_urls(self):
         """
@@ -178,7 +177,6 @@ class GetMissionUrl(object):
             if self.conn:
                 self.conn.close()
         return self.url_list
-
 
     def get_crawled_urls(self):
         try:

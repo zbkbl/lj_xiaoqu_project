@@ -30,6 +30,7 @@ class LjprojectDealMiddleware(object):
         else:
             return None
 
+
 class LjprojectListingMiddleware(object):
     def __init__(self):
         test = GetMissionUrl()

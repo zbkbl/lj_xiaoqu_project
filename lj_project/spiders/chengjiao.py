@@ -26,6 +26,7 @@ class GetResidencePrice(CrawlSpider):
         'https://xm.lianjia.com',
         'https://xa.lianjia.com',
         'https://gz.lianjia.com',
+        'https://cq.lianjia.com',
         # 'http://su.lianjia.com'
     ]
     custom_settings = {
