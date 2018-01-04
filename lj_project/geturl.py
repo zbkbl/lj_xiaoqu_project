@@ -49,7 +49,8 @@ class GetMissionUrl(object):
         :return:
         """
         try:
-            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu where id>67439")
+            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu\
+                                where city not in ('上海','苏州')")
             rs = self.cursor.fetchall()
             for line in rs:
                 # print line
@@ -76,7 +77,8 @@ class GetMissionUrl(object):
         :return:
         """
         try:
-            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu")
+            self.cursor.execute("select id,city,district,community,residence_name,url from t_web_lj_xiaoqu\
+                                where city not in ('上海','苏州')")
             rs = self.cursor.fetchall()
             for line in rs:
                 # print line
