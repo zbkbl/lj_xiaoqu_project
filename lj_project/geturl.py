@@ -3,14 +3,16 @@ import MySQLdb
 import MySQLdb.cursors
 from lj_project.items import ResidencePriceItem
 from lj_project.items import DealItem, EsfItem
+from lj_project.Exception.readUtils import MysqlConfig
 
 
 class GetMissionUrl(object):
     def __init__(self):
-        self.host = '10.0.8.198'
-        self.user = 'dashuju'
-        self.password = '8FTeR5dA!'
-        self.db = 'crawler'
+        mysqlConfig = MysqlConfig.getMysqlConfig()
+        self.host = mysqlConfig['host']
+        self.user = mysqlConfig['user']
+        self.password = mysqlConfig['password']
+        self.db = mysqlConfig['db']
 
         self.conn = MySQLdb.connect(host=self.host, user=self.user, passwd=self.password, db=self.db, charset='utf8')
         self.cursor = self.conn.cursor()

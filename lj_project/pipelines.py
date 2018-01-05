@@ -3,6 +3,9 @@ import copy
 from lj_project.items import ResidenceInfoItem,ResidencePriceItem,DealItem,EsfItem
 import MySQLdb
 import MySQLdb.cursors
+from lj_project.Exception.readUtils import MysqlConfig
+import datetime
+from lj_project.Exception.emailSender import emailSender
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -12,7 +15,13 @@ import MySQLdb.cursors
 class LjProjectPipeline(object):
 
     def __init__(self):
-        self.conn = MySQLdb.connect(host='10.0.8.198', user='dashuju', passwd='8FTeR5dA!', db='crawler', charset="utf8")
+        mysqlConfig = MysqlConfig.getMysqlConfig()
+        self.host = mysqlConfig['host']
+        self.user = mysqlConfig['user']
+        self.password = mysqlConfig['password']
+        self.db = mysqlConfig['db']
+
+        self.conn = MySQLdb.connect(host=self.host, user=self.user, passwd=self.password, db=self.db, charset='utf8')
         self.cursor = self.conn.cursor()
 
     def close_spider(self, spider):
@@ -56,6 +65,15 @@ class LjProjectPipeline(object):
             spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
             spider.logger.error(e)
+            emailSenderClient = emailSender()
+            toSendEmailLst = ['542463713@qq.com']
+            finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+            subject = u"爬虫异常状态汇报"
+            body = u"爬虫异常状态汇报：\n\
+                        爬虫名称：" + spider.name + u"\n\
+                        异常信息：" + e.message + u"\n\
+                        异常发生时间：" + finishTime
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
 
     def _insert_residence_price(self, cursor, item, spider):
         """
@@ -103,6 +121,16 @@ class LjProjectPipeline(object):
             spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
             spider.logger.error(e)
+            spider.logger.error(e)
+            emailSenderClient = emailSender()
+            toSendEmailLst = ['542463713@qq.com']
+            finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+            subject = u"爬虫异常状态汇报"
+            body = u"爬虫异常状态汇报：\n\
+                                    爬虫名称：" + spider.name + u"\n\
+                                    异常信息：" + e.message + u"\n\
+                                    异常发生时间：" + finishTime
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
 
     def _insert_listing_item(self, cursor, item, spider):
         """
@@ -131,12 +159,28 @@ class LjProjectPipeline(object):
             spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
             spider.logger.error(e)
+            spider.logger.error(e)
+            emailSenderClient = emailSender()
+            toSendEmailLst = ['542463713@qq.com']
+            finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+            subject = u"爬虫异常状态汇报"
+            body = u"爬虫异常状态汇报：\n\
+                                    爬虫名称：" + spider.name + u"\n\
+                                    异常信息：" + e.message + u"\n\
+                                    异常发生时间：" + finishTime
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
 
 
 class ShPipeline(object):
 
     def __init__(self):
-        self.conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='3385458', db='test', charset="utf8")
+        mysqlConfig = MysqlConfig.getMysqlConfig()
+        self.host = mysqlConfig['host']
+        self.user = mysqlConfig['user']
+        self.password = mysqlConfig['password']
+        self.db = mysqlConfig['db']
+
+        self.conn = MySQLdb.connect(host=self.host, user=self.user, passwd=self.password, db=self.db, charset='utf8')
         self.cursor = self.conn.cursor()
 
     def close_spider(self, spider):
@@ -163,3 +207,13 @@ class ShPipeline(object):
                 yield item
         except Exception, e:
             spider.logger.error(e)
+            spider.logger.error(e)
+            emailSenderClient = emailSender()
+            toSendEmailLst = ['542463713@qq.com']
+            finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+            subject = u"爬虫异常状态汇报"
+            body = u"爬虫异常状态汇报：\n\
+                                    爬虫名称：" + spider.name + u"\n\
+                                    异常信息：" + e.message + u"\n\
+                                    异常发生时间：" + finishTime
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body)

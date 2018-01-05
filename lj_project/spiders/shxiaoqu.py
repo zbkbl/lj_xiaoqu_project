@@ -3,9 +3,9 @@
 import scrapy
 from lj_project.items import ResidenceInfoItem
 import time
-import re
 from scrapy.spiders import CrawlSpider
 import datetime
+from lj_project.Exception.emailSender import emailSender
 city_dict = {
     'sh.lianjia': u'上海', 'su.lianjia':u'苏州'
 }
@@ -129,7 +129,19 @@ class ShXiaoquSpider(CrawlSpider):
         item['tms'] = time.strftime("%Y-%m-%d %X", time.localtime())
         yield item
 
-    def get_domain(self,url):
+    @staticmethod
+    def close(spider, reason):
+        emailSenderClient = emailSender()
+        toSendEmailLst = ['542463713@qq.com', 'liuyang@zhongjiaxin.com']
+        finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+        subject = u"爬虫结束状态汇报"
+        body = u"爬虫结束状态汇报：\n\
+                爬虫名称：" + spider.name + u"\n\
+                结束原因：" + reason + u"\n\
+                结束时间：" + finishTime
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+
+    def get_domain(self, url):
         for k,v in url_dict.items():
             if k in url:
                 return v

@@ -4,6 +4,8 @@ from scrapy.spiders import CrawlSpider
 from lj_project.geturl import GetMissionUrl
 import datetime
 from lj_project.Exception import timeUtils
+import datetime
+from lj_project.Exception.emailSender import emailSender
 
 
 class GetResidencePrice(CrawlSpider):
@@ -42,3 +44,15 @@ class GetResidencePrice(CrawlSpider):
         item['crawl_time'] = datetime.datetime.now().strftime('%Y-%m-%d %X')
 
         yield item
+
+    @staticmethod
+    def close(spider, reason):
+        emailSenderClient = emailSender()
+        toSendEmailLst = ['542463713@qq.com']
+        finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+        subject = u"爬虫结束状态汇报"
+        body = u"爬虫结束状态汇报：\n\
+                爬虫名称：" + spider.name + u"\n\
+                结束原因：" + reason + u"\n\
+                结束时间：" + finishTime
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)

@@ -3,7 +3,7 @@
 import scrapy
 from lj_project.items import ResidenceInfoItem
 import datetime
-import re
+from lj_project.Exception.emailSender import emailSender
 
 city_dict = {
     'bj.lianjia': u'北京', 'sh.lianjia': u'上海', 'xm.lianjia':u'厦门', 'nj.lianjia':u'南京', 'cd.lianjia':u'成都', 'qd.lianjia':u'青岛',
@@ -125,3 +125,15 @@ class LjXiaoquSpider(scrapy.Spider):
                 item['city'] = city_dict[key]
         item['url'] = response.url
         yield item
+
+    @staticmethod
+    def close(spider, reason):
+        emailSenderClient = emailSender()
+        toSendEmailLst = ['542463713@qq.com', 'liuyang@zhongjiaxin.com']
+        finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+        subject = u"爬虫结束状态汇报"
+        body = u"爬虫结束状态汇报：\n\
+            爬虫名称：" + spider.name + u"\n\
+            结束原因：" + reason +u"\n\
+            结束时间：" + finishTime
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)

@@ -4,7 +4,8 @@ from scrapy.spiders import CrawlSpider
 from lj_project.geturl import GetMissionUrl
 from scrapy.selector import Selector
 from scrapy import Request
-from lj_project.Exception import tryex
+import datetime
+from lj_project.Exception.emailSender import emailSender
 import re
 import time
 
@@ -146,6 +147,17 @@ class ShListing(CrawlSpider):
         item['url'] = response.url
         yield item
 
+    @staticmethod
+    def close(spider, reason):
+        emailSenderClient = emailSender()
+        toSendEmailLst = ['542463713@qq.com']
+        finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+        subject = u"爬虫结束状态汇报"
+        body = u"爬虫结束状态汇报：\n\
+                爬虫名称：" + spider.name + u"\n\
+                结束原因：" + reason + u"\n\
+                结束时间：" + finishTime
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body)
 
     def get_domain(self,url):
         for k,v in url_dict.items():
