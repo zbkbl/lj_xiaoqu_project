@@ -3,6 +3,7 @@ import scrapy
 from scrapy.spiders import CrawlSpider
 from lj_project.geturl import GetMissionUrl
 import datetime
+from lj_project.Exception import timeUtils
 
 
 class GetResidencePrice(CrawlSpider):
@@ -37,7 +38,7 @@ class GetResidencePrice(CrawlSpider):
             item['avg_price'] = avg_price.strip()
         else:
             item['avg_price'] = None
-        item['avg_time'] = u'2017/12'
+        item['avg_time'] = timeUtils.getPriceTime()
         item['crawl_time'] = datetime.datetime.now().strftime('%Y-%m-%d %X')
 
         yield item
