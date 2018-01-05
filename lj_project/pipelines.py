@@ -55,7 +55,7 @@ class LjProjectPipeline(object):
             self.conn.commit()
             spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
-            print e
+            spider.logger.error(e)
 
     def _insert_residence_price(self, cursor, item, spider):
         """
@@ -74,7 +74,7 @@ class LjProjectPipeline(object):
             spider.logger.info("======data insert successful !!!======")
             self.conn.commit()
         except Exception, e:
-            print e
+            spider.logger.error(e)
 
     def _insert_deal_item(self, cursor, item, spider):
         """
@@ -102,7 +102,7 @@ class LjProjectPipeline(object):
             self.conn.commit()
             spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
-            print e
+            spider.logger.error(e)
 
     def _insert_listing_item(self, cursor, item, spider):
         """
@@ -130,7 +130,7 @@ class LjProjectPipeline(object):
             self.conn.commit()
             spider.logger.info("================= data insert successful !!! =======================")
         except Exception, e:
-            print e
+            spider.logger.error(e)
 
 
 class ShPipeline(object):
@@ -162,4 +162,4 @@ class ShPipeline(object):
                 spider.logger.info("================ insert residence info successful ================")
                 yield item
         except Exception, e:
-            print e
+            spider.logger.error(e)
