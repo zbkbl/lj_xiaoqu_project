@@ -38,6 +38,7 @@ class emailSender(object):
                 spider.logger.info(u"登录成功，code = {" + str(loginRes[0]) + "}")
                 smtpSSLClient.sendmail(self.sender, toLst, message.as_string())
                 spider.logger.info("mail has been send successfully. message:" + message.as_string())
+                smtpSSLClient.quit()
 
             else:
                 spider.logger.info(u"登陆失败，code = {" + str(loginRes[0]) + "}")
