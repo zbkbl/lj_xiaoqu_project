@@ -1,8 +1,9 @@
 import ConfigParser
 
 conf = ConfigParser.ConfigParser()
-conf.read("E:\spiderproject\lj_project\lj_project\mysqlSettings\mysql_config.cfg")
-
+#conf.read("E:\spiderproject\lj_project\lj_project\mysqlSettings\mysql_config.cfg")
+# conf.read("F:\spider\lj_xiaoqu_project\lj_project\mysqlSettings\mysql_config.cfg")
+conf.read("/home/zbkbl/lj_spider/lj_xiaoqu_project/lj_project/mysqlSettings/mysql_config.cfg")
 
 class MysqlConfig(object):
 

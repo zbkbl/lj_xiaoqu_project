@@ -15,7 +15,7 @@ class emailSender(object):
         self.smtp_port = emailConfig['port']
         self.sender = emailConfig['sender']
 
-    def sendEmail(self, toLst, subject, body):
+    def sendEmail(self, toLst, subject, body, spider):
         """
         发送邮件
         :param toLst: 收件人的邮箱列表["465482631@qq.com", "77789713@qq.com"]
@@ -33,17 +33,17 @@ class emailSender(object):
             # 登录smtp服务器
             loginRes = smtpSSLClient.login(self.smtp_user, self.smtp_pwd)
             # loginRes = (235, b'Authentication successful')
-            print("登录结果：loginRes = {"+ str(loginRes) +"}")
+            spider.logger.info(u"邮箱登录结果：loginRes = {"+ str(loginRes) +"}")
             if loginRes and loginRes[0] == 235:
-                print("登录成功，code = {" + str(loginRes[0]) + "}")
+                spider.logger.info(u"登录成功，code = {" + str(loginRes[0]) + "}")
                 smtpSSLClient.sendmail(self.sender, toLst, message.as_string())
-                print("mail has been send successfully. message:" + message.as_string())
+                spider.logger.info("mail has been send successfully. message:" + message.as_string())
 
             else:
-                print("登陆失败，code = {" + str(loginRes[0]) + "}")
+                spider.logger.info(u"登陆失败，code = {" + str(loginRes[0]) + "}")
 
         except Exception as e:
-            print e.message
+            spider.logger.info(e.message)
 
 if __name__=="__main__":
     emailSenderClient = emailSender()
