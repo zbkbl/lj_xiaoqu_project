@@ -29,7 +29,8 @@ class emailSender(object):
         message['Subject'] = subject
         try:
             # 实例化一个SMTP_SSL对象
-            smtpSSLClient = smtplib.SMTP(self.smtp_host, self.smtp_port)
+            smtpSSLClient = smtplib.SMTP()
+            smtpSSLClient.connect(self.smtp_host)
             # 登录smtp服务器
             loginRes = smtpSSLClient.login(self.smtp_user, self.smtp_pwd)
             # loginRes = (235, b'Authentication successful')
