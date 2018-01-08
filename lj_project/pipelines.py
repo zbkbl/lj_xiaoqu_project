@@ -216,4 +216,4 @@ class ShPipeline(object):
                                     爬虫名称：" + spider.name + u"\n\
                                     异常信息：" + e.message + u"\n\
                                     异常发生时间：" + finishTime
-            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body,spider)

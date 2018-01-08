@@ -86,7 +86,7 @@ FEED_EXPORT_ENCODING = 'utf-8'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'lj_project.pipelines.LjProjectPipeline': 300,
+ #  'lj_project.pipelines.LjProjectPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

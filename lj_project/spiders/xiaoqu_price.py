@@ -16,7 +16,7 @@ class GetResidencePrice(CrawlSpider):
                 'lj_project.pipelines.LjProjectPipeline': 300,
             },
             'DOWNLOADER_MIDDLEWARES': {
-                # 'lj_project.filter_url.LjprojectListingMiddleware': 310,
+                'lj_project.filter_url.LjprojectListingMiddleware': 310,
             },
             'DOWNLOAD_DELAY':0.2
     }
