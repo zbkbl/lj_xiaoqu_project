@@ -147,4 +147,4 @@ class GetResidencePrice(CrawlSpider):
                 爬虫名称：" + spider.name + u"\n\
                 结束原因：" + reason + u"\n\
                 结束时间：" + finishTime
-        emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+        emailSenderClient.sendEmail(toSendEmailLst, subject, body, spider)
