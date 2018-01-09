@@ -128,8 +128,10 @@ class ShListing(CrawlSpider):
         item['household']         = None
 
         item['ring_num']          = None
-        lj_num            = sr.xpath('/html/body/section/div[2]/aside/ul[2]/li[4]/span[2]/text()').extract()
-        item['lj_num'] = lj_num[1]
+        lj_num            = sr.xpath('/html/body/section/div[2]/aside/ul[2]/li[last()]/span[2]/text()').extract()
+        for i in lj_num:
+            if i.strip() != '':
+                item['lj_num'] = i.strip()
         item['property_type']     = None
         item['house_owner']       = None
         item['listing_date']      = None
