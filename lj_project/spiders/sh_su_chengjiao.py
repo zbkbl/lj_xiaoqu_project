@@ -2,7 +2,6 @@
 import scrapy
 from scrapy.spiders import CrawlSpider
 from lj_project.items import DealItem
-import datetime
 from scrapy.selector import Selector
 from scrapy import Request
 from lj_project.Exception import tryex
@@ -182,7 +181,7 @@ class ShChengjiao(CrawlSpider):
     @staticmethod
     def close(spider, reason):
         emailSenderClient = emailSender()
-        toSendEmailLst = ['542463713@qq.com']
+        toSendEmailLst = ['liuyang@zhongjiaxin.com']
         finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
         subject = u"爬虫结束状态汇报"
         body = u"爬虫结束状态汇报：\n\

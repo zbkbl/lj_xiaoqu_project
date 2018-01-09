@@ -129,7 +129,7 @@ class LjListingSpider(CrawlSpider):
     @staticmethod
     def close(spider, reason):
         emailSenderClient = emailSender()
-        toSendEmailLst = ['542463713@qq.com']
+        toSendEmailLst = ['liuyang@zhongjiaxin.com']
         finishTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
         subject = u"爬虫结束状态汇报"
         body = u"爬虫结束状态汇报：\n\
