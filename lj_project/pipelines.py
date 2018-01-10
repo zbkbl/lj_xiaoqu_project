@@ -73,7 +73,7 @@ class LjProjectPipeline(object):
                         爬虫名称：" + spider.name + u"\n\
                         异常信息：" + e.message + u"\n\
                         异常发生时间：" + finishTime
-            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body, spider)
 
     def _insert_residence_price(self, cursor, item, spider):
         """
@@ -130,7 +130,7 @@ class LjProjectPipeline(object):
                                     爬虫名称：" + spider.name + u"\n\
                                     异常信息：" + e.message + u"\n\
                                     异常发生时间：" + finishTime
-            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body, spider)
 
     def _insert_listing_item(self, cursor, item, spider):
         """
@@ -168,7 +168,7 @@ class LjProjectPipeline(object):
                                     爬虫名称：" + spider.name + u"\n\
                                     异常信息：" + e.message + u"\n\
                                     异常发生时间：" + finishTime
-            emailSenderClient.sendEmail(toSendEmailLst, subject, body)
+            emailSenderClient.sendEmail(toSendEmailLst, subject, body, spider)
 
 
 class ShPipeline(object):
