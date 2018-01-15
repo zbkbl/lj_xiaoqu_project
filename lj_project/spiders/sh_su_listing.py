@@ -103,6 +103,8 @@ class ShListing(CrawlSpider):
                 item['decoration'] = v
             elif k == u'房屋朝向':
                 item['orientation'] = v.strip()
+            elif k == u'进门朝向':
+                item['orientation'] = v.strip()
 
         item['inner_area']        = None
 
